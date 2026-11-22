@@ -373,3 +373,51 @@ revoke insert, update, delete on public.notifications from anon, authenticated;
 
 -- Public leaderboard is read-only.
 grant select on public.top_deposit_users to anon, authenticated;
+
+
+-- 15. OWNER PANEL: aman untuk dijalankan ulang sebagai migration.
+-- Backfill profil untuk akun Auth yang sudah ada sebelum trigger dipasang.
+insert into public.profiles (id, full_name, email)
+select u.id, coalesce(u.raw_user_meta_data->>'full_name',''), u.email
+from auth.users u
+on conflict (id) do update set email = excluded.email;
+
+-- Hanya Owner yang dapat mengubah role member/admin melalui RPC ini.
+-- Role owner sengaja tidak dapat diberikan/diturunkan dari panel.
+create or replace function public.owner_set_member_role(
+  p_user_id uuid,
+  p_new_role text
+)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if not exists (
+    select 1 from public.profiles
+    where id = auth.uid() and role = 'owner'
+  ) then
+    raise exception 'Akses ditolak: hanya Owner yang dapat mengubah role';
+  end if;
+
+  if p_new_role not in ('user','admin') then
+    raise exception 'Role yang diizinkan hanya user atau admin';
+  end if;
+
+  if not exists (select 1 from public.profiles where id = p_user_id) then
+    raise exception 'Akun tidak ditemukan';
+  end if;
+
+  if exists (select 1 from public.profiles where id = p_user_id and role = 'owner') then
+    raise exception 'Role Owner dilindungi dan tidak dapat diubah dari panel';
+  end if;
+
+  update public.profiles
+  set role = p_new_role
+  where id = p_user_id;
+end;
+$$;
+
+revoke all on function public.owner_set_member_role(uuid,text) from public, anon;
+grant execute on function public.owner_set_member_role(uuid,text) to authenticated;

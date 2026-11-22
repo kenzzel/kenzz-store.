@@ -83,3 +83,64 @@ nav button:hover,.textbtn:hover{background:#ffdc19}
  .hero{padding:35px 0}
  .nebula{height:250px}
 }
+
+
+/* Owner panel */
+.ownerLink{background:#ffdc19}
+.ownerUserRow{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 0;border-bottom:2px solid #171717}
+.ownerUserRow:last-child{border-bottom:0}
+.ownerUserMeta{display:grid;gap:4px;min-width:0}
+.ownerUserMeta b{overflow-wrap:anywhere}
+.ownerUserMeta small{font-size:11px;color:#5d5b55;overflow-wrap:anywhere}
+.ownerRole{display:inline-flex;width:max-content;padding:4px 8px;border:2px solid #111;border-radius:6px;background:#eee;font-size:9px;font-weight:900;letter-spacing:1px}
+.ownerRole.isAdmin{background:#63dce8}
+.ownerRole.isOwner{background:#ffdc19}
+.ownerUserActions{display:flex;align-items:center;gap:8px}
+.ownerRoleSelect{width:auto;min-width:110px;padding:8px;font-size:12px}
+.ownerUserActions .smallbtn{white-space:nowrap}
+@media(max-width:560px){.ownerUserRow{align-items:flex-start;flex-direction:column}.ownerUserActions{width:100%}.ownerRoleSelect{flex:1}}
+
+
+/* KENZZ STORE — PAPER / NEO-BRUTALIST THEME */
+:root{--bg:#f4f2e8;--panel:#fffefa;--panel2:#fff9e9;--pink:#ff8fba;--pink2:#f46b9f;--violet:#4269e8;--text:#111;--muted:#5d5b55;--line:#171717;--green:#10b981}
+html{background:var(--bg)}
+body{background-color:var(--bg);background-image:radial-gradient(#22222222 1px,transparent 1px);background-size:14px 14px;color:var(--text)}
+body:before{display:none}
+.topbar{background:#fffefa;border-bottom:3px solid #111;backdrop-filter:none;box-shadow:0 4px 0 #111}
+.logo{color:#111}.logo span{color:#4269e8}
+nav button,.textbtn{color:#111;font-weight:800}
+.btn,.iconbtn,.chip,.tab,.amount,.input,.panel,.product,.promo,.linkCard,.contactCard,.stat,.modal,.nebula{border:3px solid #111;border-radius:15px;box-shadow:3px 4px 0 #111}
+.btn{color:#111}.main,.smallbtn{background:#ffdc19;color:#111;border:3px solid #111;box-shadow:3px 4px 0 #111}
+.outline,.soft,.iconbtn{background:#fffefa;color:#111;border-color:#111}
+.mobileNav button{background:#fffefa;border:2px solid #111;color:#111}
+.eyebrow{color:#4269e8}.hero h1 span{background:none;color:#4269e8}
+.hero p,.pageHead p,.promo p,.muted,.hint,.trust{color:#5d5b55}
+.nebula{background:#ffdc19;box-shadow:5px 6px 0 #111}.planet{background:#4269e8;color:#fff}
+.product,.panel,.contactCard{background:#fffefa}.productImage{background:#63dce8}
+.tag,.role{color:#111;border:2px solid #111;background:#ffdc19;border-radius:7px}
+.price,.balance{color:#111}.promo{background:#ffdc19}
+.input{background:#fffefa;color:#111;box-shadow:none}.input:focus{border-color:#4269e8}
+.chip,.tab,.amount{background:#fffefa;color:#111}
+.chip.active,.tab.active,.amount.active{background:#ffdc19;border-color:#111;color:#111}
+.balanceBox{background:#ffdc19}.balanceBox small{color:#333}.balanceBox b{color:#111}
+.linkCard{background:#63dce8}.linkCard span,.linkCard strong{color:#111}.linkCard small{color:#333}
+.stats .stat:nth-child(1){background:#ff8fba}.stats .stat:nth-child(2){background:#63dce8}.stats .stat:nth-child(3){background:#ffdc19}
+.stat small,.stat b{color:#111}.footer{border-top:3px solid #111;color:#555}.footrow b{color:#111}
+.modalWrap{background:#111b}.modal{background:#fffefa;box-shadow:5px 6px 0 #111}.close{color:#111}
+.toast{background:#ffdc19;color:#111;border:2px solid #111;box-shadow:3px 3px 0 #111}
+.ownerLink{background:#ffdc19}
+
+/* Standalone Admin and Owner pages */
+.topbar nav a{color:#111;text-decoration:none;font-weight:800;padding:10px;border-radius:10px}
+.topbar nav a:hover{background:#ffdc19}
+a.linkCard{text-decoration:none;color:inherit}
+.adminUserRow,.ownerUserRow{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 0;border-bottom:2px solid #171717}
+.ownerUserRow:last-child,.adminUserRow:last-child{border-bottom:0}
+.ownerUserMeta{display:grid;gap:4px;min-width:0}
+.ownerUserMeta b,.ownerUserMeta small{overflow-wrap:anywhere}
+.ownerUserMeta small{font-size:11px;color:#5d5b55}
+.ownerRole{display:inline-flex;width:max-content;padding:4px 8px;border:2px solid #111;border-radius:6px;background:#eee;font-size:9px;font-weight:900;letter-spacing:1px}
+.ownerRole.isAdmin{background:#63dce8}.ownerRole.isOwner{background:#ffdc19}
+.ownerUserActions{display:flex;align-items:center;gap:8px}
+.ownerRoleSelect{width:auto;min-width:110px;padding:8px;font-size:12px}
+@media(max-width:560px){.ownerUserRow{align-items:flex-start;flex-direction:column}.ownerUserActions{width:100%}.ownerRoleSelect{flex:1}}

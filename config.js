@@ -3,8 +3,8 @@
 // JANGAN pernah masukkan service_role key, password database, token Telegram,
 // secret payment gateway, atau Gmail app password ke file ini.
 window.KENZZ_CONFIG = {
-  SUPABASE_URL: "https://ityukojbzfasuynrboyo.supabase.co",
-  SUPABASE_ANON_KEY: "sb_publishable_r0t2vCACg-2rz5CCkIyw4A_oSRQVC1M",
+  SUPABASE_URL: "https://johhhblmkjzqzvlpbfhq.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_fjR-LsWlcwTl-wPNJHCccA_P57t6Mk6",
   // URL backend/Edge Function milikmu. Jangan simpan secret di sini.
   API_BASE_URL: "",
   // Endpoint backend OAuth TikTok milikmu (bukan client secret).

@@ -54,3 +54,26 @@ Simpan rahasia tersebut sebagai Supabase Edge Function Secrets / Vercel Environm
 - Pengiriman produk Gmail belum otomatis dikirim dari frontend. Backend perlu fulfillment worker yang mengirim instruksi/produk yang sah setelah order paid.
 - Untuk Alight Motion, jangan mengirim password akun pribadi atau menjual akses yang melanggar ketentuan penyedia. Gunakan metode distribusi resmi.
 - Admin dapat melihat pesanan dan mengubah status pemrosesan. Deposit hanya dinyatakan paid oleh webhook backend, bukan tombol admin/browser.
+
+
+## Fitur tambahan versi Kenzz Store
+- Wishlist/favorit produk per akun (tersimpan di Supabase).
+- Pengaturan jumlah produk langsung dari keranjang (+/-), maksimal 99.
+- Pengurutan katalog: terbaru, harga termurah/termahal, dan nama A–Z.
+- Tema Neo Brutalist dipertahankan dari stylesheet sumber; file `style.css` tetap di root agar sesuai dengan referensi HTML.
+- SQL tambahan untuk tabel `favorites` dan RLS ada di `supabase_setup.sql` dan `database/supabase_setup.sql`.
+
+## Migrasi database
+Jika database lama sudah pernah dipasang, buka Supabase SQL Editor dan jalankan bagian `16. FAVORITES / WISHLIST` dari `supabase_setup.sql` (atau jalankan seluruh script jika sesuai kondisi database dan kebijakan migrasi proyek).
+
+
+## Checklist agar semua fitur online aktif
+
+1. Isi `config.js` dengan `SUPABASE_URL` dan `SUPABASE_ANON_KEY`.
+2. Jalankan `supabase_setup.sql` di Supabase (untuk database baru), atau jalankan migrasi Favorites/Wishlist bagian 16 jika database lama sudah ada.
+3. Aktifkan Email Auth di Supabase. Untuk Google/GitHub, aktifkan provider dan isi credentials + redirect URLs di Supabase.
+4. TikTok login memerlukan endpoint OAuth backend resmi melalui `TIKTOK_OAUTH_URL`.
+5. Deposit otomatis memerlukan backend `POST /create-payment` dan webhook pembayaran yang memverifikasi signature sebelum memanggil `confirm_deposit_payment`.
+6. Admin/Owner memerlukan role di `profiles`; akun pertama dipromosikan Owner melalui SQL sesuai petunjuk README.
+
+Tombol yang bergantung pada provider/backend tidak bisa menyelesaikan transaksi nyata hanya dari frontend. Jika endpoint atau credential belum disiapkan, aplikasi menampilkan pesan konfigurasi, bukan mengklaim transaksi berhasil.

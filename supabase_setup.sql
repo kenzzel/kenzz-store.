@@ -421,3 +421,19 @@ $$;
 
 revoke all on function public.owner_set_member_role(uuid,text) from public, anon;
 grant execute on function public.owner_set_member_role(uuid,text) to authenticated;
+
+
+-- 16. FAVORITES / WISHLIST
+create table if not exists public.favorites (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  product_id uuid not null references public.products(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  unique(user_id, product_id)
+);
+alter table public.favorites enable row level security;
+drop policy if exists "favorites own all" on public.favorites;
+create policy "favorites own all" on public.favorites
+for all to authenticated
+using (user_id = auth.uid())
+with check (user_id = auth.uid());

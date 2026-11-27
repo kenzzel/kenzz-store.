@@ -144,3 +144,17 @@ a.linkCard{text-decoration:none;color:inherit}
 .ownerUserActions{display:flex;align-items:center;gap:8px}
 .ownerRoleSelect{width:auto;min-width:110px;padding:8px;font-size:12px}
 @media(max-width:560px){.ownerUserRow{align-items:flex-start;flex-direction:column}.ownerUserActions{width:100%}.ownerRoleSelect{flex:1}}
+
+
+/* Added store features: wishlist, sorting, cart quantity */
+.shopTools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.shopTools .search{flex:1;min-width:180px}
+.sortSelect{width:auto;min-width:165px}
+.productMeta{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.favoriteBtn{width:34px;height:34px;border:2px solid #111;background:#fffefa;color:#111;font-size:20px;line-height:1;cursor:pointer;box-shadow:2px 2px 0 #111}
+.favoriteBtn.active{background:#ff8fba;color:#111}
+.cartActions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.qtyControl{display:flex;align-items:center;border:2px solid #111;background:#fffefa;box-shadow:2px 2px 0 #111}
+.qtyControl button{width:30px;height:30px;border:0;background:#ffdc19;color:#111;font-weight:900}
+.qtyControl b{min-width:28px;text-align:center}
+@media(max-width:560px){.shopTools{width:100%}.sortSelect{width:100%}.cartActions{justify-content:flex-start}.cartRow{align-items:flex-start;flex-direction:column}}

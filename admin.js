@@ -3,7 +3,7 @@ const C=window.KENZZ_CONFIG||{}, sb=window.supabase.createClient(C.SUPABASE_URL,
 const $=id=>document.getElementById(id); let products=[];
 const money=n=>'Rp'+Number(n||0).toLocaleString('id-ID');
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function toast(s){$('toast').textContent=s;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2500)}
+function toast(message,type){const t=$('toast');if(!t)return;const m=String(message??'');const kind=type||(/\b(gagal|error|ditolak|tidak berhasil|invalid|failed|belum|wajib)\b/i.test(m)?'error':/\b(berhasil|disimpan|ditambahkan|dihapus|diperbarui|sukses|akses diberikan|masuk)\b/i.test(m)?'success':'info');t.textContent=m;t.className='toast show toast-'+kind;t.setAttribute('role',kind==='error'?'alert':'status');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),3200)}
 function notice(s){$('notice').textContent=s}
 async function boot(){
  const {data:{session}}=await sb.auth.getSession();

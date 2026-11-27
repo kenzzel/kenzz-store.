@@ -4,7 +4,7 @@ const sb=hasSB()?window.supabase.createClient(C.SUPABASE_URL,C.SUPABASE_ANON_KEY
 const $=id=>document.getElementById(id), money=n=>'Rp'+Number(n||0).toLocaleString('id-ID');
 let session=null,profile=null,products=[],cart=[],orders=[],favorites=[],category='all',historyMode='orders',editing=null,sortMode='newest',checkoutItems=null;
 const demoProducts=[{id:'demo-1',name:'Alight Motion Premium',price:15000,category:'app',description:'Produk digital • pengiriman sesuai ketentuan',image_url:'',stock:-1,is_active:true},{id:'demo-2',name:'Paket Editing',price:10000,category:'digital',description:'Paket digital pilihan',image_url:'',stock:-1,is_active:true},{id:'demo-3',name:'Voucher Digital',price:20000,category:'other',description:'Voucher kebutuhan digital',image_url:'',stock:-1,is_active:true}];
-function toast(s){let t=$('toast');t.textContent=s;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),2600)}
+function toast(message,type){const t=$('toast');if(!t)return;const m=String(message??'');const kind=type||(/\b(gagal|error|ditolak|tidak berhasil|invalid|failed|belum|wajib)\b/i.test(m)?'error':/\b(berhasil|disimpan|ditambahkan|dihapus|diperbarui|sukses|akses diberikan|masuk)\b/i.test(m)?'success':'info');t.textContent=m;t.className='toast show toast-'+kind;t.setAttribute('role',kind==='error'?'alert':'status');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),3200)}
 function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function moneyHTML(n){return `<span class="price">${money(n)}</span>`}
 function isOwner(){return profile?.role==='owner'}

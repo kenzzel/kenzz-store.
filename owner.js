@@ -2,8 +2,8 @@
 const C=window.KENZZ_CONFIG||{}, sb=window.supabase.createClient(C.SUPABASE_URL,C.SUPABASE_ANON_KEY);
 const $=id=>document.getElementById(id);let rows=[],products=[],editingProductId=null,selectedImage=null;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function toast(s){$('toast').textContent=s;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2500)}
-function notice(s){$('notice').textContent=s}
+function toast(message,type){const t=$('toast');if(!t)return;const m=String(message??'');const kind=type||(/\b(gagal|error|ditolak|tidak berhasil|invalid|failed|belum|wajib)\b/i.test(m)?'error':/\b(berhasil|disimpan|ditambahkan|dihapus|diperbarui|sukses|akses diberikan|masuk)\b/i.test(m)?'success':'info');t.textContent=m;t.className='toast show toast-'+kind;t.setAttribute('role',kind==='error'?'alert':'status');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),3200)}
+function notice(s){$('notice').style.whiteSpace='pre-wrap';$('notice').textContent=s}
 async function boot(){
  const {data:{session}}=await sb.auth.getSession();
  if(!session){notice('Kamu belum login. Silakan login melalui halaman toko.');return}
@@ -50,11 +50,38 @@ async function saveProduct(e){
  $('saveProduct').disabled=true;$('saveProduct').textContent='Menyimpan...';
  try{
   let imageUrl=editingProductId?(products.find(x=>x.id===editingProductId)?.image_url||null):null;
-  if(selectedImage){const ext=(selectedImage.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';const path=`${crypto.randomUUID()}.${ext}`;const up=await sb.storage.from('kenzz-products').upload(path,selectedImage,{upsert:false,contentType:selectedImage.type||'image/jpeg'});if(up.error)throw up.error;imageUrl=sb.storage.from('kenzz-products').getPublicUrl(path).data.publicUrl;}
+  if(selectedImage){
+   const {data:authData,error:authError}=await sb.auth.getSession();
+   if(authError)throw new Error('Pemeriksaan sesi gagal: '+authError.message);
+   const session=authData?.session;
+   if(!session?.access_token)throw new Error('Sesi Supabase tidak memiliki access token. Keluar lalu login ulang.');
+   const ext=(selectedImage.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';
+   const randomName=(globalThis.crypto?.randomUUID?.()||(`${Date.now()}-${Math.random().toString(16).slice(2)}`));
+   const path=`${randomName}.${ext}`;
+   notice('DIAGNOSTIK UPLOAD\nSesi: tersedia · User: '+session.user.id+'\nFile: '+selectedImage.name+' ('+selectedImage.size+' byte) · MIME: '+(selectedImage.type||'(kosong)')+'\nTujuan: '+C.SUPABASE_URL+'/storage/v1/object/kenzz-products/'+path+'\nMengirim permintaan...');
+   let up;
+   try{
+    up=await sb.storage.from('kenzz-products').upload(path,selectedImage,{upsert:false,contentType:selectedImage.type||'image/jpeg'});
+   }catch(networkError){
+    console.error('[KENZZ UPLOAD NETWORK ERROR]',networkError);
+    const details={name:networkError?.name||'Error',message:networkError?.message||String(networkError),status:networkError?.status,statusCode:networkError?.statusCode,code:networkError?.code,cause:networkError?.cause?String(networkError.cause):null,online:navigator.onLine,secureContext:isSecureContext};
+    notice('UPLOAD GAGAL — ERROR JARINGAN\n'+JSON.stringify(details,null,2)+'\n\nCatatan: tidak ada token/password yang ditampilkan.');
+    throw new Error('Upload gagal pada lapisan jaringan. Buka kotak diagnostik untuk detail.');
+   }
+   if(up.error){
+    const storageError=up.error;
+    console.error('[KENZZ STORAGE ERROR]',storageError);
+    const details={name:storageError.name||'StorageError',message:storageError.message||String(storageError),status:storageError.status,statusCode:storageError.statusCode,error:storageError.error,code:storageError.code,online:navigator.onLine,secureContext:isSecureContext};
+    notice('UPLOAD DITOLAK / GAGAL OLEH SUPABASE STORAGE\n'+JSON.stringify(details,null,2));
+    throw new Error('Supabase Storage: '+(storageError.message||'upload gagal')+(storageError.statusCode?' (HTTP '+storageError.statusCode+')':''));
+   }
+   imageUrl=sb.storage.from('kenzz-products').getPublicUrl(path).data.publicUrl;
+   notice('Upload foto berhasil. Menyimpan data produk...');
+  }
   const payload={name,price,category:$('productCategory').value,description:$('productDescription').value.trim(),stock,is_active:$('productActive').value==='true',image_url:imageUrl};
   let result;if(editingProductId)result=await sb.from('products').update(payload).eq('id',editingProductId);else{const {data:{user}}=await sb.auth.getUser();result=await sb.from('products').insert({...payload,created_by:user.id});}
   if(result.error)throw result.error;toast(editingProductId?'Produk berhasil diperbarui.':'Produk berhasil ditambahkan.');resetProductForm();await loadProducts();
- }catch(err){toast('Gagal menyimpan: '+(err.message||'Kesalahan tidak diketahui'));}
+ }catch(err){console.error('[KENZZ SAVE PRODUCT ERROR]',err);toast('Gagal menyimpan: '+(err.message||'Kesalahan tidak diketahui'));if(!String($('notice').textContent||'').includes('UPLOAD GAGAL')&&!String($('notice').textContent||'').includes('UPLOAD DITOLAK'))notice('GAGAL MENYIMPAN PRODUK\nNama error: '+(err?.name||'Error')+'\nPesan: '+(err?.message||String(err))+'\nOnline: '+navigator.onLine+' · HTTPS: '+isSecureContext);}
  finally{$('saveProduct').disabled=false;$('saveProduct').textContent=editingProductId?'Update produk':'Simpan produk';}
 }
 async function deleteProduct(id){if(!confirm('Yakin ingin menghapus produk ini?'))return;const {error}=await sb.from('products').delete().eq('id',id);if(error){toast('Gagal menghapus: '+error.message);return}toast('Produk dihapus.');await loadProducts();}

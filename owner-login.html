@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4f2e8">
+<title>Login Owner — Kenzz Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script>
+</head>
+<body>
+<header class="topbar"><div class="container nav"><a class="logo" href="index.html">✦ KENZZ<span>STORE</span></a><nav><a href="index.html">Kembali ke toko</a></nav></div></header>
+<main class="container" style="max-width:560px;padding:48px 18px 80px">
+ <section class="panel" style="padding:28px">
+  <div class="eyebrow">PRIVATE ACCESS</div><h1 style="margin:8px 0">Login Owner</h1><p class="muted">Masuk menggunakan email dan password akun Owner Kenzz Store.</p>
+  <form id="ownerLoginForm" class="form" style="margin-top:22px">
+   <label class="label" for="ownerEmail">Email Owner</label><input class="input" id="ownerEmail" type="email" autocomplete="username" required placeholder="owner@email.com">
+   <label class="label" for="ownerPassword">Password</label><input class="input" id="ownerPassword" type="password" autocomplete="current-password" required placeholder="Password akun Owner">
+   <button class="btn main full" id="ownerLoginSubmit" type="submit">Masuk sebagai Owner</button>
+  </form>
+  <div id="ownerLoginNotice" class="hint" role="status" style="margin-top:16px">Akses hanya diberikan kepada akun dengan role OWNER.</div>
+ </section>
+</main>
+<script src="owner-login.js"></script>
+</body></html>

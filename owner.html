@@ -1,5 +1,25 @@
 <!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4f2e8"><title>Owner Panel — Kenzz Store</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script></head><body><header class="topbar"><div class="container nav"><a class="logo" href="index.html">✦ KENZZ<span>STORE</span></a><nav><a href="index.html">Toko</a><a href="admin.html">Admin</a><a href="owner.html">Owner</a></nav><div class="navright"><span id="whoami" class="muted"></span><button class="btn outline" id="logout">Keluar</button></div></div></header><main class="container" style="padding:32px 0 70px">
 <div class="pageHead"><div><div class="eyebrow">OWNER CONTROL CENTER</div><h1>Owner Panel</h1><p>Halaman khusus Owner untuk mengelola akses Admin dan Member.</p></div><button class="btn outline" id="refresh">↻ Refresh</button></div>
 <div id="notice" class="panel">Memeriksa sesi login...</div>
-<div id="ownerApp" class="hidden"><div class="stats"><div class="stat"><small>Total akun</small><b id="totalUsers">0</b></div><div class="stat"><small>Admin</small><b id="adminCount">0</b></div><div class="stat"><small>Owner</small><b id="ownerCount">0</b></div></div><div class="panel"><h3>Manajemen akun</h3><input id="search" class="input" placeholder="Cari nama atau email..."><div id="users" style="margin-top:12px"></div></div><p class="hint">Owner tidak dapat diubah melalui panel. Hanya Owner yang dapat mengangkat atau menurunkan Admin.</p></div>
+<div id="ownerApp" class="hidden"><div class="stats"><div class="stat"><small>Total akun</small><b id="totalUsers">0</b></div><div class="stat"><small>Admin</small><b id="adminCount">0</b></div><div class="stat"><small>Owner</small><b id="ownerCount">0</b></div></div><div class="panel"><h3>Manajemen akun</h3><input id="search" class="input" placeholder="Cari nama atau email..."><div id="users" style="margin-top:12px"></div></div>
+<section class="panel" style="margin-top:18px" id="productManager">
+ <div class="pageHead" style="margin-bottom:16px"><div><div class="eyebrow">PRODUCT CONTROL</div><h2 style="margin:7px 0;font-family:Space Grotesk">Kelola Produk</h2><p>Tambah produk baru, ubah detail, atau hapus produk dari toko.</p></div><button class="btn outline" id="resetProduct" type="button">+ Produk baru</button></div>
+ <form id="productForm" class="adminGrid">
+  <div>
+   <label class="label" for="productImage">Foto produk</label><input class="input" id="productImage" type="file" accept="image/*">
+   <div id="imagePreview" style="margin-top:10px;min-height:100px;border:2px dashed #171717;padding:8px;display:grid;place-items:center;background:#fff"><span class="muted">Preview foto produk</span></div>
+   <label class="label" for="productName">Nama produk</label><input class="input" id="productName" required maxlength="120" placeholder="Contoh: Premium Account 1 Bulan">
+   <label class="label" for="productPrice">Harga produk (Rp)</label><input class="input" id="productPrice" type="number" min="1" step="1" required placeholder="15000">
+   <label class="label" for="productCategory">Kategori</label><select class="input" id="productCategory"><option value="digital">Digital</option><option value="app">Aplikasi</option><option value="other">Lainnya</option></select>
+  </div>
+  <div>
+   <label class="label" for="productDescription">Deskripsi produk</label><textarea class="input" id="productDescription" rows="5" maxlength="2000" placeholder="Jelaskan detail dan manfaat produk..."></textarea>
+   <label class="label" for="productStock">Stok produk</label><input class="input" id="productStock" type="number" min="-1" step="1" value="-1"><small class="hint">Isi -1 untuk stok tidak terbatas.</small>
+   <label class="label" for="productActive">Status produk</label><select class="input" id="productActive"><option value="true">Aktif — tampil di toko</option><option value="false">Nonaktif — disembunyikan</option></select>
+   <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:18px"><button class="btn primary" id="saveProduct" type="submit">Simpan produk</button><button class="btn outline" id="cancelEdit" type="button">Batal</button></div>
+  </div>
+ </form>
+ <div class="divider"></div><h3>Daftar produk</h3><input class="input" id="productSearch" placeholder="Cari nama produk..."><div id="productList" style="margin-top:12px"></div>
+</section>
+<p class="hint">Owner tidak dapat diubah melalui panel. Hanya Owner yang dapat mengangkat atau menurunkan Admin.</p></div>
 </main><div class="toast" id="toast"></div><script src="owner.js"></script></body></html>

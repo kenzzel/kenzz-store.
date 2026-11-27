@@ -5,14 +5,14 @@
 window.KENZZ_CONFIG = {
   SUPABASE_URL: "https://ityukojbzfasuynrboyo.supabase.co",
   SUPABASE_ANON_KEY: "sb_publishable_r0t2vCACg-2rz5CCkIyw4A_oSRQVC1M",
-  // URL backend/Edge Function milikmu. Jangan simpan secret di sini.
-  API_BASE_URL: "",
+  // Nomor WhatsApp Owner untuk menerima pesanan manual (format internasional tanpa +).
+  OWNER_WHATSAPP: "6283194748380",
   // Endpoint backend OAuth TikTok milikmu (bukan client secret).
   TIKTOK_OAUTH_URL: "",
   // Link kontak toko. Ganti dengan akun resmi Kenzz Store.
   CONTACTS: {
     tiktok: "https://www.tiktok.com/@kenzzeln2?_r=1&_d=f18ehf4m8g3kih&sec_uid=MS4wLjABAAAAGOy22dNpVVM0tt1XovuoTBZ-W0yVgRBVdq-gygzbK56oztcF5oBvSUafLHUAQoDL&share_author_id=7628568701004366868&sharer_language=id&source=h5_t&u_code=f3290c05b653hg&timestamp=1793694614&user_id=7628568701004366868&sec_user_id=MS4wLjABAAAAGOy22dNpVVM0tt1XovuoTBZ-W0yVgRBVdq-gygzbK56oztcF5oBvSUafLHUAQoDL&item_author_type=1&utm_source=copy&utm_campaign=client_share&utm_medium=android&share_iid=7703069496441145108&share_link_id=9bc1a3b9-0b26-4f65-95c5-3fd224269744&share_app_id=1180&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb4907&social_share_type=5&share_enter_from=settings_page&item_author_type=1&enable_checksum=1",
-    whatsapp: "https://wa.me/kenzzeln57",
+    whatsapp: "https://wa.me/6283194748380",
     telegram: "https://t.me/Ryukenntzy",
     instagram: "https://www.instagram.com/"
   }

@@ -437,3 +437,109 @@ create policy "favorites own all" on public.favorites
 for all to authenticated
 using (user_id = auth.uid())
 with check (user_id = auth.uid());
+
+-- 17. STORAGE FOTO PRODUK KENZZ STORE
+-- Bucket publik agar foto produk dapat ditampilkan di halaman toko.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('kenzz-products', 'kenzz-products', true, 5242880, array['image/jpeg','image/png','image/webp','image/gif'])
+on conflict (id) do update set public=true, file_size_limit=5242880,
+  allowed_mime_types=array['image/jpeg','image/png','image/webp','image/gif'];
+
+drop policy if exists "owner upload product images" on storage.objects;
+create policy "owner upload product images" on storage.objects
+for insert to authenticated
+with check (bucket_id='kenzz-products' and exists (
+  select 1 from public.profiles p where p.id=auth.uid() and p.role='owner'
+));
+
+drop policy if exists "owner update product images" on storage.objects;
+create policy "owner update product images" on storage.objects
+for update to authenticated
+using (bucket_id='kenzz-products' and exists (
+  select 1 from public.profiles p where p.id=auth.uid() and p.role='owner'
+))
+with check (bucket_id='kenzz-products' and exists (
+  select 1 from public.profiles p where p.id=auth.uid() and p.role='owner'
+));
+
+drop policy if exists "owner delete product images" on storage.objects;
+create policy "owner delete product images" on storage.objects
+for delete to authenticated
+using (bucket_id='kenzz-products' and exists (
+  select 1 from public.profiles p where p.id=auth.uid() and p.role='owner'
+));
+
+
+-- 17. CHECKOUT LANGSUNG VIA MIDTRANS (TANPA DEPOSIT / SALDO)
+-- Frontend membuat pesanan pending. Backend membuat invoice Midtrans.
+create or replace function public.create_pending_order_from_cart(p_delivery_email text)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_uid uuid := auth.uid();
+  v_order_id uuid;
+  v_total bigint;
+begin
+  if v_uid is null then raise exception 'Silakan login terlebih dahulu'; end if;
+  if p_delivery_email is null or position('@' in p_delivery_email) < 2 then
+    raise exception 'Email penerima tidak valid';
+  end if;
+  select coalesce(sum(p.price * c.quantity),0) into v_total
+  from public.cart_items c join public.products p on p.id=c.product_id
+  where c.user_id=v_uid and p.is_active=true;
+  if v_total <= 0 then raise exception 'Keranjang kosong atau produk tidak tersedia'; end if;
+  if exists (
+    select 1 from public.cart_items c join public.products p on p.id=c.product_id
+    where c.user_id=v_uid and p.is_active=true and p.stock <> -1 and p.stock < c.quantity
+  ) then raise exception 'Stok produk tidak mencukupi'; end if;
+  insert into public.orders(user_id,delivery_email,total_amount,status,payment_method)
+  values(v_uid,lower(trim(p_delivery_email)),v_total,'pending_payment','midtrans')
+  returning id into v_order_id;
+  insert into public.order_items(order_id,product_id,product_name,unit_price,quantity)
+  select v_order_id,p.id,p.name,p.price,c.quantity
+  from public.cart_items c join public.products p on p.id=c.product_id
+  where c.user_id=v_uid and p.is_active=true;
+  return v_order_id;
+end;
+$$;
+revoke all on function public.create_pending_order_from_cart(text) from public, anon;
+grant execute on function public.create_pending_order_from_cart(text) to authenticated;
+
+-- Dipanggil HANYA oleh backend setelah signature notifikasi Midtrans diverifikasi.
+create or replace function public.confirm_order_payment(p_order_id uuid, p_provider text default 'midtrans')
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  o public.orders%rowtype;
+begin
+  select * into o from public.orders where id=p_order_id for update;
+  if not found then raise exception 'Pesanan tidak ditemukan'; end if;
+  if o.status in ('paid_pending_fulfillment','processing','completed') then return; end if;
+  if o.status <> 'pending_payment' then raise exception 'Status pesanan tidak menunggu pembayaran'; end if;
+  if exists (
+    select 1 from public.order_items oi join public.products p on p.id=oi.product_id
+    where oi.order_id=p_order_id and p.stock <> -1 and p.stock < oi.quantity
+  ) then
+    update public.orders set status='cancelled',payment_method=p_provider where id=p_order_id;
+    raise exception 'Stok tidak mencukupi saat pembayaran terkonfirmasi';
+  end if;
+  update public.products p set stock=p.stock-oi.quantity
+  from public.order_items oi
+  where oi.order_id=p_order_id and oi.product_id=p.id and p.stock <> -1;
+  update public.orders set status='paid_pending_fulfillment',payment_method=p_provider where id=p_order_id;
+  delete from public.cart_items c using public.order_items oi
+  where oi.order_id=p_order_id and c.user_id=o.user_id and c.product_id=oi.product_id;
+  insert into public.notifications(user_id,event_type,title,message,payload)
+  values(o.user_id,'purchase_success','Pembayaran berhasil','Pembayaran pesanan telah terverifikasi.',jsonb_build_object('order_id',p_order_id,'total',o.total_amount));
+  insert into public.notifications(event_type,title,message,payload)
+  values('admin_purchase','Pembayaran pesanan baru','Ada pembayaran pesanan baru di Kenzz Store.',jsonb_build_object('order_id',p_order_id,'user_id',o.user_id,'total',o.total_amount));
+end;
+$$;
+revoke all on function public.confirm_order_payment(uuid,text) from public, anon, authenticated;
+grant execute on function public.confirm_order_payment(uuid,text) to service_role;

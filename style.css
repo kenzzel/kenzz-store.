@@ -158,3 +158,6 @@ a.linkCard{text-decoration:none;color:inherit}
 .qtyControl button{width:30px;height:30px;border:0;background:#ffdc19;color:#111;font-weight:900}
 .qtyControl b{min-width:28px;text-align:center}
 @media(max-width:560px){.shopTools{width:100%}.sortSelect{width:100%}.cartActions{justify-content:flex-start}.cartRow{align-items:flex-start;flex-direction:column}}
+
+/* Direct payment checkout */
+.paymentMethods{margin:18px 0;padding:16px;border:2px solid #171717;background:#fff7c7;box-shadow:4px 4px 0 #171717}.paymentMethods> b{display:block;margin-bottom:6px}.payChips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.payChips span{display:inline-flex;padding:7px 10px;border:2px solid #171717;background:#ffe45e;font-weight:800;font-size:.78rem;box-shadow:2px 2px 0 #171717}

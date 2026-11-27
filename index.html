@@ -5,7 +5,7 @@
 <meta name="theme-color" content="#100a17"><title>Kenzz Store — Rose Nebula</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="assets/css/style.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -42,5 +42,5 @@
 <div class="modalWrap hidden" id="authModal"><div class="modal"><div class="modalTop"><div><div class="eyebrow">WELCOME BACK</div><h2 id="authHeading">Masuk akun</h2></div><button class="close" data-close="authModal">×</button></div><div class="authSwitch"><button class="tab active" data-authmode="login">Login</button><button class="tab" data-authmode="register">Register</button></div><form id="authForm" class="form"><label class="label">Nama (untuk register)</label><input class="input" id="authName" placeholder="Nama kamu"><label class="label">Email</label><input class="input" id="authEmail" type="email" required placeholder="nama@email.com"><label class="label">Password</label><input class="input" id="authPassword" type="password" required minlength="6" placeholder="Minimal 6 karakter"><button class="btn main full" id="authSubmit">Masuk</button></form><div class="dividerText">atau lanjutkan dengan</div><div class="oauth"><button class="btn outline" id="googleBtn">Google</button><button class="btn outline" id="githubBtn">GitHub</button><button class="btn outline" id="tiktokBtn">TikTok</button></div><p class="hint">OAuth harus diaktifkan pada dashboard provider dan Supabase. TikTok memerlukan OAuth backend khusus.</p></div></div>
 <div class="modalWrap hidden" id="checkoutModal"><div class="modal"><div class="modalTop"><div><div class="eyebrow">CONFIRM ORDER</div><h2>Konfirmasi pesanan</h2></div><button class="close" data-close="checkoutModal">×</button></div><div id="checkoutSummary"></div><label class="label">Email penerima produk digital</label><input class="input" id="deliveryEmail" type="email" placeholder="email untuk pengiriman"><p class="hint">Jangan berikan password Gmail. Produk/akses hanya dikirim melalui metode resmi dan aman.</p><button class="btn main full" id="confirmCheckout">Buat pesanan</button></div></div>
 <div class="toast" id="toast"></div>
-<script src="config.js"></script><script src="app.js"></script>
+<script src="config.js"></script><script src="assets/js/app.js"></script>
 </body></html>

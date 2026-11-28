@@ -15,6 +15,7 @@
   <div>
    <label class="label" for="productDescription">Deskripsi produk</label><textarea class="input" id="productDescription" rows="5" maxlength="2000" placeholder="Jelaskan detail dan manfaat produk..."></textarea>
    <label class="label" for="productStock">Stok produk</label><input class="input" id="productStock" type="number" min="-1" step="1" value="-1"><small class="hint">Isi -1 untuk stok tidak terbatas.</small>
+   <label class="label" for="productRelease">Tahap rilis produk</label><select class="input" id="productRelease"><option value="released">Sudah dirilis — tersedia untuk dibeli</option><option value="upcoming">Produk mendatang — belum tersedia</option></select><small class="hint">Produk mendatang hanya muncul di katalog Produk Mendatang, tidak di beranda atau katalog toko biasa. Bisa dirilis kapan saja lewat Edit.</small>
    <label class="label" for="productActive">Status produk</label><select class="input" id="productActive"><option value="true">Aktif — tampil di toko</option><option value="false">Nonaktif — disembunyikan</option></select>
    <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:18px"><button class="btn primary" id="saveProduct" type="submit">Simpan produk</button><button class="btn outline" id="cancelEdit" type="button">Batal</button></div>
   </div>

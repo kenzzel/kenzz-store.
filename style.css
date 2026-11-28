@@ -166,3 +166,16 @@ a.linkCard{text-decoration:none;color:inherit}
 .toast{position:fixed;z-index:9999;left:50%;bottom:24px;transform:translate(-50%,18px);width:max-content;max-width:min(92vw,560px);padding:13px 18px;border:3px solid #171717;background:#fffefa;color:#171717;box-shadow:5px 5px 0 #171717;font-weight:800;font-size:.92rem;opacity:0;visibility:hidden;transition:opacity .18s ease,transform .18s ease,visibility .18s;pointer-events:none}
 .toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
 .toast-success{background:#c9f7b8}.toast-error{background:#ffb4b4}.toast-warning{background:#ffe45e}.toast-info{background:#d9e9ff}
+
+/* Stock habis state in the public catalog */
+.stock-out-label{display:inline-flex;align-items:center;margin:10px 0 2px;padding:6px 10px;border:2px solid #171717;background:#ffcf45;color:#171717;font-size:.75rem;font-weight:900;letter-spacing:.08em;box-shadow:3px 3px 0 #171717}
+.product-out-of-stock .productImage{filter:grayscale(.55)}
+.product .smallbtn:disabled,.product .btn:disabled{opacity:1;cursor:not-allowed;background:#d8d5ca!important;color:#57534b!important;border-color:#777!important;box-shadow:none!important}
+
+.stock-remaining{display:inline-block;margin:9px 0 2px;font-size:.78rem;font-weight:800;color:#3b3528}
+
+/* Produk mendatang — retains Neo Brutalist design */
+.upcoming-product{position:relative;border-style:solid}
+.upcoming-product .productImage{position:relative}
+.upcoming-ribbon{position:absolute;top:12px;left:12px;background:#ffe66d;color:#171717;border:2px solid #171717;box-shadow:3px 3px 0 #171717;padding:7px 10px;font-size:12px;font-weight:900;letter-spacing:.06em;transform:rotate(-3deg)}
+.upcoming-product .btn:disabled{opacity:1;background:#eee;color:#555;cursor:not-allowed;border:2px solid #171717}

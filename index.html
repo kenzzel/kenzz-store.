@@ -11,9 +11,9 @@
 <body>
 <header class="topbar"><div class="container nav">
   <a class="logo" href="#" onclick="return UI.go('home')">✦ KENZZ<span>STORE</span></a>
-  <nav id="desktopNav"><button data-go="home">Home</button><button data-go="shop">Toko</button><button data-go="favorites">Favorit</button><button data-go="contact">Kontak</button></nav>
+  <nav id="desktopNav"><button data-go="home">Home</button><button data-go="shop">Toko</button><button data-go="upcoming">Produk Mendatang</button><button data-go="favorites">Favorit</button><button data-go="contact">Kontak</button></nav>
   <div class="navright"><button class="iconbtn" data-go="cart" aria-label="Keranjang">♧ <i id="cartCount">0</i></button><button class="btn outline" id="navLogin">Login</button><a class="btn outline" href="owner-login.html">Login Owner</a><button class="btn main" id="navProfile">Profil</button><button class="iconbtn mobileMenu" id="menuBtn">☰</button></div>
-</div><div id="mobileNav" class="container mobileNav hidden"><button data-go="home">Home</button><button data-go="shop">Toko</button><button data-go="favorites">Favorit</button><button data-go="contact">Kontak</button><button data-go="history">Riwayat</button></div></header>
+</div><div id="mobileNav" class="container mobileNav hidden"><button data-go="home">Home</button><button data-go="shop">Toko</button><button data-go="upcoming">Produk Mendatang</button><button data-go="favorites">Favorit</button><button data-go="contact">Kontak</button><button data-go="history">Riwayat</button></div></header>
 
 <main class="container">
 <section class="view active" id="home">
@@ -23,6 +23,8 @@
 </section>
 
 <section class="view" id="shop"><div class="pageHead"><div><div class="eyebrow">DIGITAL COLLECTION</div><h1>Toko</h1><p>Temukan produk favoritmu.</p></div><div class="shopTools"><input id="productSearch" class="input search" placeholder="Cari produk..."><select id="productSort" class="input sortSelect"><option value="newest">Terbaru</option><option value="price-low">Harga terendah</option><option value="price-high">Harga tertinggi</option><option value="name">Nama A–Z</option></select></div></div><div class="chips"><button class="chip active" data-category="all">Semua</button><button class="chip" data-category="app">Aplikasi</button><button class="chip" data-category="digital">Digital</button><button class="chip" data-category="other">Lainnya</button></div><div id="productGrid" class="productGrid"></div></section>
+
+<section class="view" id="upcoming"><div class="pageHead"><div><div class="eyebrow">COMING SOON · KENZZ STORE</div><h1>Produk Mendatang</h1><p>Intip produk yang sedang dipersiapkan. Belum bisa dibeli sampai resmi dirilis.</p></div></div><div id="upcomingGrid" class="productGrid"></div></section>
 
 <section class="view" id="favorites"><div class="pageHead"><div><div class="eyebrow">YOUR WISHLIST</div><h1>Produk favorit</h1><p>Simpan produk incaranmu agar mudah ditemukan lagi.</p></div></div><div id="favoritesGrid" class="productGrid"></div></section>
 

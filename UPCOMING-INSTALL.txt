@@ -1,0 +1,11 @@
+KENZZ STORE — PRODUK MENDATANG
+
+1. Supabase SQL Editor: jalankan upcoming_products_patch.sql.
+   File ini menambahkan kolom release_status dan memperbarui RPC checkout stok.
+   Tidak perlu menjalankan stock_checkout_patch.sql lagi secara terpisah.
+2. Upload seluruh file website ke GitHub, lalu tunggu deploy Vercel.
+3. Owner Panel -> Tambah Produk -> Tahap rilis: Produk mendatang.
+4. Produk mendatang hanya terlihat di menu Produk Mendatang, tidak di Home/Toko.
+5. Edit produk -> Tahap rilis: Sudah dirilis untuk memindahkannya ke katalog Toko.
+6. Status Nonaktif tetap menyembunyikan produk dari publik.
+7. Produk lama otomatis dianggap Sudah dirilis.

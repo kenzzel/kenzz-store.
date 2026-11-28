@@ -1,0 +1,17 @@
+KENZZ STORE - STOCK OTOMATIS & PRODUK HABIS
+
+1. Jalankan file stock_checkout_patch.sql di Supabase SQL Editor SATU KALI.
+2. Upload seluruh isi folder proyek ke GitHub (timpa file lama), termasuk app.js dan style.css.
+3. Tunggu Vercel selesai deploy.
+
+Perilaku:
+- Stok -1 = tidak terbatas.
+- Stok 0 = produk tetap tampil di katalog dengan label PRODUK HABIS; tombol beli/keranjang nonaktif.
+- Saat pembeli mengisi checkout dan menekan tombol kirim pesanan ke WhatsApp, server membuat order pending dan mengurangi stok secara atomik.
+- Bila stok tidak cukup, pesanan ditolak dan stok tidak berubah.
+- Owner dapat mengedit stok produk dari Owner Panel; isi angka positif untuk mengaktifkan produk kembali.
+- Produk tidak otomatis dihapus saat stok habis.
+
+Catatan:
+- Stok dipotong ketika pesanan dikonfirmasi/dibuat, bukan hanya saat pembeli membuka dialog Beli Sekarang.
+- Karena pembayaran dilakukan manual melalui WhatsApp, pesanan yang tidak jadi dibayar tetap menahan stok. Owner perlu mengatur ulang stok secara manual jika pesanan dibatalkan. Jangan tandai pesanan sebagai dibatalkan melalui SQL tanpa mekanisme pengembalian stok.
